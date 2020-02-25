@@ -3,8 +3,8 @@ import pika
 import os
 
 app = Flask(__name__)
-rabbit_host = os.getenv("Rabbit_Host")
-rabbit_port = os.getenv("Rabbit_Port")
+rabbit_host = os.getenv("RABBITMQ_SERVICE_HOST")
+rabbit_port = os.getenv("RABBITMQ_SERVICE_PORT")
 
 
 @app.route('/')
@@ -15,7 +15,7 @@ def main():
 @app.route('/<parameter>')
 def hello_world(parameter=None):
     try:
-        connection = pika.BlockingConnection(pika.ConnectionParameters('localhost'))
+        connection = pika.BlockingConnection(pika.ConnectionParameters(host=rabbit_host, port=rabbit_port))
         channel = connection.channel()
         channel.queue_declare(queue=parameter)
         channel.basic_publish(exchange='',
