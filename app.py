@@ -1,7 +1,15 @@
 from flask import Flask, Request
 import pika
+import os
 
 app = Flask(__name__)
+rabbit_host = os.getenv("Rabbit_Host")
+rabbit_port = os.getenv("Rabbit_Port")
+
+
+@app.route('/')
+def main():
+    return f"RABBIT HOST --> {rabbit_host}\nRABBIT PORT --> {rabbit_port}"
 
 
 @app.route('/<parameter>')
