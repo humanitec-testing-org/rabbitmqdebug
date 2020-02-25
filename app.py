@@ -12,7 +12,11 @@ rabbit_password = "CfHsTLIuQ6"
 
 @app.route('/')
 def main():
-    return f"RABBIT HOST --> {rabbit_host}\nRABBIT PORT --> {rabbit_port}"
+    RABBIT_VALUES = f"RABBIT HOST --> {rabbit_host}\nRABBIT PORT --> {rabbit_port}"
+    ENV_LIST = ""
+    for key in os.environ:
+        ENV_LIST = ENV_LIST + f"{key} : {os.environ.get(key)}\n"
+    return f"{RABBIT_VALUES}\n\n{ENV_LIST}"
 
 
 @app.route('/<parameter>')
