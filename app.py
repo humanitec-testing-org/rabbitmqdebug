@@ -15,7 +15,7 @@ def main():
 @app.route('/<parameter>')
 def hello_world(parameter=None):
     try:
-        connection = pika.BlockingConnection(pika.ConnectionParameters(host=rabbit_host, port=rabbit_port))
+        connection = pika.BlockingConnection(pika.ConnectionParameters(rabbit_host))
         channel = connection.channel()
         channel.queue_declare(queue=parameter)
         channel.basic_publish(exchange='',
