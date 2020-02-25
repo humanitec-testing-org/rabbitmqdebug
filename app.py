@@ -6,6 +6,9 @@ app = Flask(__name__)
 rabbit_host = os.getenv("RABBITMQ_SERVICE_HOST")
 rabbit_port = os.getenv("RABBITMQ_SERVICE_PORT")
 
+rabbit_user = "user"
+rabbit_password = "CfHsTLIuQ6"
+
 
 @app.route('/')
 def main():
@@ -15,7 +18,8 @@ def main():
 @app.route('/<parameter>')
 def hello_world(parameter=None):
     try:
-        connection = pika.BlockingConnection(pika.ConnectionParameters(rabbit_host))
+        credentials = pika.PlainCredentials(username=rabbit_user, password=rabbit_password)
+        connection = pika.BlockingConnection(pika.ConnectionParameters(host=rabbit_host, credentials=credentials))
         channel = connection.channel()
         channel.queue_declare(queue=parameter)
         channel.basic_publish(exchange='',
